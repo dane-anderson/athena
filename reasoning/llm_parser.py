@@ -79,8 +79,6 @@ class QuantLLMParser:
 
         except Exception as error:
 
-            print("LLM FAILED:", error)
-
             self.last_warning = str(error)
 
             return rule_based_parse(
