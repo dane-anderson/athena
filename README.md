@@ -1,4 +1,4 @@
-cat > README.md <<'EOF'
+
 # Athena
 
 Athena is a modular local AI system for quantitative research, mathematical analysis, knowledge retrieval, and tool-based execution.
@@ -390,4 +390,4 @@ Athena is being developed with:
 **Dane Anderson**
 
 Athena is an ongoing AI systems and quantitative-engineering project exploring the intersection of artificial intelligence, mathematics, quantitative finance, research methodology, and software engineering.
-EOF
+
