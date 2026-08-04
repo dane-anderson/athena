@@ -1,0 +1,13 @@
+models:
+
+  reasoning:
+    provider: ollama
+    name: qwen3.5:122b
+
+  coding:
+    provider: ollama
+    name: deepseek-r1:70b
+
+  embedding:
+    provider: ollama
+    name: qwen3-embedding:8b
