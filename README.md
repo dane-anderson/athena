@@ -391,4 +391,4 @@ Athena is being developed with:
 
 Athena is an ongoing AI systems and quantitative-engineering project exploring the intersection of artificial intelligence, mathematics, quantitative finance, research methodology, and software engineering.
 
-<img width="468" height="651" alt="image" src="https://github.com/user-attachments/assets/cef8cbe0-7064-4ea1-9607-5a0d2b016c64" />
+<img width="468" height="651" alt="image" src="https://github.com/user-attachments/assets/3ac608e5-4bf6-4781-b4c8-6be6ce2f783a" />
