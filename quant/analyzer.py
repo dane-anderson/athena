@@ -22,7 +22,7 @@ from quant.risk_engine import (
 from quant.report import (
     generate_risk_report,
 )
-
+from quant.data_metadata import MarketDataMetadata
 
 
 def prices_to_returns(prices):
@@ -54,13 +54,18 @@ def analyze_asset(
         days
     )
 
-    print(data.shape)
-    print(data.tail())
+    
 
     prices = data["close"]
 
-    print(type(prices))
-    print(prices.head())
+    metadata = MarketDataMetadata(
+        provider="Alpaca",
+        feed="IEX",
+        timeframe="Daily",
+        observations=len(prices),
+        start_date=str(prices.index[0][1].date()),
+        end_date=str(prices.index[-1][1].date()),
+    )
 
     returns = prices_to_returns(
         prices
@@ -70,6 +75,8 @@ def analyze_asset(
         returns,
         confidence
     )
+
+    analysis.metadata = metadata
 
     report = generate_risk_report(
         analysis

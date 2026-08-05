@@ -14,22 +14,26 @@ from dataclasses import dataclass
 
 from quant.diagnostics import (
     distribution_summary,
+    DistributionDiagnostics,
 )
 
 from quant.model_comparison import (
     run_tail_risk_analysis,
 )
 
+from quant.data_metadata import MarketDataMetadata
 
 
 @dataclass
 class RiskAnalysisResult:
-    """
-    Complete risk research output.
-    """
 
-    diagnostics: object
+    diagnostics: DistributionDiagnostics
+
     models: list
+
+    flags: list
+
+    metadata: MarketDataMetadata | None = None
 
 
 
@@ -58,5 +62,6 @@ def analyze_risk(
 
     return RiskAnalysisResult(
         diagnostics=diagnostics,
-        models=models
+        models=models,
+        flags=[]
     )

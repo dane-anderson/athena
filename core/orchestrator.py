@@ -10,7 +10,7 @@ from models.ollama_client import OllamaClient
 from reasoning.parser import parse_quant_request
 
 from quant.analyzer import analyze_asset
-
+from quant.report_formatter import format_risk_report
 
 class AthenaOrchestrator:
 
@@ -37,9 +37,14 @@ class AthenaOrchestrator:
                     "for risk analysis."
                 )
 
-            return analyze_asset(
+            report = analyze_asset(
                 request.assets[0]
             )
+
+            return format_risk_report(
+                report,
+                request.assets[0]
+)
 
 
         prompt = f"""

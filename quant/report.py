@@ -15,6 +15,8 @@ Interpretation belongs to Athena's reasoning layer.
 
 from dataclasses import dataclass
 
+from quant.data_metadata import MarketDataMetadata
+
 
 
 @dataclass
@@ -26,6 +28,7 @@ class RiskReport:
     diagnostics: object
     models: list
     flags: list
+    metadata: MarketDataMetadata | None = None
 
 
 
@@ -82,5 +85,6 @@ def generate_risk_report(
     return RiskReport(
         diagnostics=diagnostics,
         models=analysis.models,
-        flags=flags
+        flags=flags,
+        metadata=analysis.metadata
     )

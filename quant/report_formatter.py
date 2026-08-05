@@ -48,13 +48,41 @@ def format_risk_report(
         f"\nAsset: {asset}"
     )
 
+    if report.metadata:
+
+        lines.append(
+            "\nMARKET DATA"
+        )
+
+        lines.append(
+            f"Provider: {report.metadata.provider}"
+        )
+
+        lines.append(
+            f"Feed: {report.metadata.feed}"
+        )
+
+        lines.append(
+            f"Frequency: {report.metadata.timeframe}"
+        )
+
+        lines.append(
+            f"Price Observations: {report.metadata.observations}"
+        )
+
+        lines.append(
+            f"Period: {report.metadata.start_date}"
+            f" → "
+            f"{report.metadata.end_date}"
+        )
+
 
     lines.append(
         "\nDISTRIBUTION ANALYSIS"
     )
 
     lines.append(
-        f"Observations: {diagnostics.observations}"
+        f"Return Observations: {diagnostics.observations}"
     )
 
     lines.append(
