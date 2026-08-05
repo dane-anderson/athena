@@ -7,8 +7,8 @@ from dotenv import load_dotenv
 from alpaca.data.historical import StockHistoricalDataClient
 from alpaca.data.requests import StockBarsRequest
 from alpaca.data.timeframe import TimeFrame
-
-
+from datetime import datetime, timedelta, timezone
+from alpaca.data.enums import DataFeed
 load_dotenv()
 
 class AlpacaProvider:
@@ -27,10 +27,20 @@ class AlpacaProvider:
         days=365
     ):
 
+        end = datetime.now(
+            timezone.utc
+        )
+
+        start = end - timedelta(
+            days=days
+        )
+
         request = StockBarsRequest(
             symbol_or_symbols=symbol,
             timeframe=TimeFrame.Day,
-            limit=days,
+            start=start,
+            end=end,
+            feed=DataFeed.IEX,
         )
 
         bars = self.client.get_stock_bars(
