@@ -1,249 +1,562 @@
-Athena
-A Local AI Research System for Quantitative Analysis, Mathematics, and Engineering
-Athena is a modular local AI system designed to combine specialized language models, deterministic computation engines, and domain-specific tools into a unified research environment.
-Athena is built around a simple principle:
-AI interprets the problem. Specialized systems solve the problem.
-Instead of relying on one model to do everything, Athena coordinates multiple systems:
-Local AI models for reasoning and interpretation
-Python engines for deterministic computation
-Quantitative research tools for financial analysis
-Mathematical tools for structured learning
-Retrieval systems for research memory
-Coding tools for engineering workflows
-The goal is to create a private AI research partner capable of helping users analyze, learn, and build.
-What Is Athena?
-Modern research requires many different capabilities working together.
-A quantitative researcher may need:
-Market data
-Statistical models
-Simulations
-Programming
-Mathematical reasoning
-Documentation
-Previous research
-Experiment tracking
-Athena brings these capabilities together into one conversational environment.
-Instead of asking:
-"Which tool should I use?"
+# Athena
+
+**Athena is a local AI-powered quantitative research platform that transforms natural-language financial questions into validated analysis, deterministic calculations, and structured research reports.**
+
+Athena is not simply a chatbot that discusses markets.
+
 A user can ask:
-"Analyze my portfolio risk if volatility increases."
-Athena determines:
-What the user is trying to accomplish
-Which tools are needed
-Which calculations should run
-What research context matters
-How the results should be explained
-Architecture
-Athena is organized into several specialized layers:
-User
-↓
-Athena Application
-↓
-Athena Core
-↓
-Reasoning Layer
-Model Routing
-Research Retrieval
-Quantitative Engines
-Mathematics Tools
-Coding Tools
-↓
-Structured Research Results
-↓
-Analyst Explanation Layer
-The purpose of this architecture is to separate interpretation from execution.
-Core Philosophy
-AI Interprets
-Language models are used for:
-Understanding natural language
-Reasoning through problems
-Selecting appropriate workflows
-Explaining results
-Assisting research
-Systems Execute
-Python-based engines perform:
-Statistics
-Financial calculations
-Simulations
-Validation
-Reproducible computation
-The AI layer explains the work.
-The computational layer performs the work.
-Current System — V1
-Quantitative Research Foundation
-Athena currently includes a quantitative research framework focused on financial analysis and computational experimentation.
-Market Data
-Current capabilities:
-Provider-based market data architecture
-Alpaca integration
-Yahoo Finance development workflows
-Market-data metadata tracking
-Risk Analysis
-Athena currently supports:
-Value at Risk (VaR)
-Expected Shortfall (ES)
-Historical Simulation
-Gaussian risk models
-Student-t risk models
-Distribution diagnostics
-Tail-risk analysis
-Risk model comparison
-Example workflow:
-User:
-Analyze Apple risk
-Athena:
-Retrieves market data
-Calculates returns
-Analyzes return distributions
-Runs multiple risk models
-Generates structured research output
-Creates analyst commentary
-The quantitative engine produces the measurements.
-The analyst layer explains the findings.
-Quant Request System
-Athena is designed to translate natural language into structured research tasks.
-Example:
-User:
-Run a Monte Carlo simulation on Nvidia and Microsoft.
-Athena converts this into a structured request:
-{
-"task": "simulation",
-"assets": [
-"NVDA",
-"MSFT"
-],
-"time_horizon_days": 252,
-"simulations": 10000
-}
-This approach allows natural conversation while maintaining deterministic execution.
-Reporting System
-Athena produces structured research outputs including:
-Quantitative measurements
-Risk metrics
-Model comparisons
-Market-data metadata
-Research commentary
-The goal is not simply producing numbers.
-The goal is producing understandable research.
-Local Model Architecture
-Athena uses specialized models by role.
-Role	Purpose
-Analyst	Research explanations
-Quant Reasoner	Complex quantitative analysis
-Research Model	Methodology and exploration
-Engineer	Coding workflows
-Mathematics	Mathematical assistance
-Embeddings	Memory and retrieval
-Athena is designed around coordinated intelligence rather than one model attempting every task.
-Development Roadmap
-V1 — Quantitative Research Foundation
-Completed foundations:
-Local model integration
-Model registry
-Quant request architecture
-Natural-language parsing
-Asset resolution
-Quant execution routing
-Market-data integration
-Risk engine
-Tail-risk analysis
-Monte Carlo foundations
-Stress-test foundations
-Structured reports
-Report formatting
-Automated testing
-Git/GitHub workflow
-V1 establishes Athena as a quantitative research system.
-V2 — Interactive Research System
-The next phase focuses on making Athena understand more complex human requests.
-Goals:
-Natural-language parameter extraction
-Automatic QuantRequest generation
-Intelligent tool routing
-Expanded portfolio workflows
-Advanced reporting
-Charts and visualizations
-Athena Application integration
-Example:
-Instead of:
-Analyze Apple risk
-A user can ask:
-Analyze Apple's downside risk over five years, compare it with Nvidia, and run a 99% confidence stress analysis.
-Athena converts the request into a validated research workflow.
-V3 — Athena Research Partner
-The long-term vision is a persistent research environment.
-Future capabilities:
-Research Memory
-Athena will support:
-Previous analyses
-Saved experiments
-Research assumptions
-Methodologies
-User workflows
-Research Library
-Athena will retrieve:
-Quantitative research
-Technical documentation
-Mathematical references
-Saved studies
-Advanced Quant Research
-Future systems:
-Portfolio optimization
-Factor analysis
-Backtesting
-Alpha research
-Advanced simulations
-Scenario generation
-Project Structure
-Athena Core
-core/
-→ Orchestration and system coordination
-models/
-→ Local model management
-reasoning/
-→ Request parsing, context building, and model routing
-quant/
-→ Market data, risk engines, portfolio analysis, simulation, and reporting
-memory/
-→ Research library and retrieval systems
-tests/
-→ Validation and automated testing
-tools/
-→ Specialized workflows
-Technology
-Built with:
-Python
-Local Large Language Models
-Ollama
-Alpaca Market Data API
-Yahoo Finance
-pandas
-NumPy
-Quantitative finance methods
-Retrieval systems
-Git
-GitHub
-Design Principles
-Athena is built around:
-Natural language as the primary interface
-Deterministic computation over generated answers
-Modular architecture
-Specialized model roles
-Reproducible research
-Local execution and privacy
-Why Athena?
-Most AI systems ask:
-"How can one model answer everything?"
-Athena asks:
-"How can specialized systems work together?"
-The future of AI is not one model doing every job.
-It is coordinated intelligence.
-Author
-Dane Anderson
-Athena is an ongoing AI systems project exploring the intersection of:
-Artificial intelligence
-Quantitative finance
-Mathematics
-Research systems
-Software engineering
-Human-AI collaboration
+
+> Athena, analyze Apple’s risk.
+
+Athena can interpret the request, identify the appropriate security, retrieve market data, calculate statistical diagnostics, run multiple tail-risk models, compare their results, preserve model and data provenance, and return a structured quantitative research report.
+
+The project combines the accessibility of conversational AI with the reliability of a traditional quantitative analysis system.
+
+---
+
+## Quantitative Research, From Request to Report
+
+Athena’s quantitative research engine is the centerpiece of the platform.
+
+A natural-language request moves through a complete analytical pipeline:
+
+```text
+Natural-Language Request
+          ↓
+Quant Request Parser
+          ↓
+Validated QuantRequest
+          ↓
+Quantitative Orchestrator
+          ↓
+Market-Data Provider
+          ↓
+Statistical Diagnostics
+          ↓
+Risk and Simulation Engines
+          ↓
+Structured RiskReport
+          ↓
+Formatted Research Report
+          ↓
+Optional AI Analyst Commentary
+```
+
+This architecture separates two fundamentally different responsibilities:
+
+### Artificial intelligence interprets intent
+
+The language model determines what the user is asking Athena to analyze and converts the request into a structured analytical specification.
+
+### Deterministic Python performs the mathematics
+
+Risk calculations, statistical tests, simulations, and model comparisons are executed by validated quantitative code rather than generated or estimated by the language model.
+
+This separation allows Athena to remain conversational without sacrificing numerical reliability.
+
+---
+
+## Example Research Request
+
+```text
+Athena, analyze Apple risk.
+```
+
+Athena can translate that request into a validated research workflow that:
+
+1. Resolves Apple to the ticker `AAPL`
+2. Determines the requested analysis type
+3. Retrieves daily historical market data
+4. Calculates return-series diagnostics
+5. Evaluates the statistical distribution of returns
+6. Runs multiple Value at Risk and Expected Shortfall models
+7. Compares the models
+8. Records the data source, model parameters, and execution metadata
+9. Produces a structured research report
+10. Adds plain-language analyst commentary when requested
+
+The result is not an improvised answer from an LLM. It is a report backed by reproducible calculations.
+
+---
+
+## Quantitative Capabilities
+
+### Market Risk
+
+Athena currently supports several approaches to tail-risk estimation:
+
+* Historical Value at Risk
+* Historical Expected Shortfall
+* Gaussian Value at Risk
+* Gaussian Expected Shortfall
+* Student-t Value at Risk
+* Student-t Expected Shortfall
+* Model-to-model risk comparison
+
+Using multiple models allows Athena to show how risk estimates change under different assumptions about the return distribution.
+
+### Statistical Diagnostics
+
+Athena can analyze the behavior of a security’s return series using metrics including:
+
+* Mean return
+* Standard deviation
+* Annualized volatility
+* Skewness
+* Kurtosis
+* Minimum and maximum returns
+* Distribution diagnostics
+* Jarque-Bera normality testing
+
+These diagnostics help determine whether a normal-distribution risk model is appropriate or whether heavier-tailed alternatives should receive greater consideration.
+
+### Simulation and Scenario Foundations
+
+The quantitative architecture includes routing and foundations for:
+
+* Monte Carlo simulation
+* Portfolio-level analysis
+* Crisis and stress scenarios
+* Comparative model testing
+* Additional securities and asset classes
+* Expanded factor and exposure analysis
+
+These systems are designed to become part of the same request-to-report pipeline rather than isolated analytical scripts.
+
+---
+
+## Structured Quant Requests
+
+Athena does not send an unstructured sentence directly into a mathematical function.
+
+The request is first converted into a validated object describing the analysis Athena should perform.
+
+Conceptually, a request may include:
+
+```text
+Analysis Type
+Security or Portfolio
+Ticker
+Time Period
+Confidence Level
+Data Frequency
+Risk Models
+Simulation Settings
+Scenario Settings
+Reporting Preferences
+```
+
+The structured request is validated before execution.
+
+If an AI-generated request is incomplete or invalid, Athena can use rule-based parsing and Python validation as safeguards.
+
+This design creates a boundary between flexible natural-language interaction and strict computational execution.
+
+---
+
+## Structured Research Results
+
+Athena’s quantitative engine returns structured results rather than only formatted text.
+
+A research result can contain:
+
+* Asset identity
+* Requested analysis
+* Observation period
+* Number of market observations
+* Return methodology
+* Statistical diagnostics
+* Model assumptions
+* VaR results
+* Expected Shortfall results
+* Simulation outputs
+* Scenario outputs
+* Model comparisons
+* Data-provider information
+* Execution metadata
+* Warnings and validation results
+
+The reporting layer can then transform the same research object into:
+
+* A desktop application response
+* A formatted quantitative report
+* A portfolio dashboard
+* A PDF
+* A machine-readable output
+* AI-generated analyst commentary
+
+The mathematics and the presentation remain separate.
+
+---
+
+## Data Provenance
+
+Quantitative results are only meaningful when their origin is clear.
+
+Athena’s research architecture is designed to preserve information such as:
+
+* Market-data provider
+* Data feed
+* Security symbol
+* Start and end dates
+* Observation frequency
+* Number of observations
+* Model selected
+* Confidence level
+* Distribution assumptions
+* Simulation parameters
+* Execution timestamp
+* Warnings or fallback behavior
+
+For example, Athena can identify that an analysis used daily `AAPL` market data retrieved through the Alpaca IEX feed rather than presenting the numbers without context.
+
+This makes the results easier to review, reproduce, and audit.
+
+---
+
+## Provider Abstraction
+
+Athena’s quantitative engine is not intended to depend permanently on one market-data service.
+
+The market-data layer uses a provider abstraction so the analytical engine can request data without being tightly coupled to the provider that supplies it.
+
+Conceptually:
+
+```text
+Quantitative Engine
+        ↓
+Market-Data Interface
+        ↓
+Configured Provider
+        ↓
+Validated Price History
+```
+
+This architecture supports future integration with additional providers while keeping the quantitative models unchanged.
+
+---
+
+## AI Analyst Commentary
+
+Athena can use a local language model to explain completed quantitative results in accessible language.
+
+The AI commentary layer can help explain:
+
+* What the risk estimates mean
+* Why the models disagree
+* Whether the return distribution appears non-normal
+* How skewness or kurtosis affects the analysis
+* What Expected Shortfall adds beyond Value at Risk
+* Which assumptions deserve caution
+* What additional analysis may be appropriate
+
+The language model interprets the completed results.
+
+It does not replace the quantitative engine or invent the underlying calculations.
+
+---
+
+## Why Athena Is Different
+
+Many AI finance applications ask a language model to generate both the explanation and the numbers.
+
+Athena uses a different architecture:
+
+```text
+LLM
+Interprets the request
+        ↓
+Validated analytical specification
+        ↓
+Python quantitative engine
+Performs the calculations
+        ↓
+Structured research result
+        ↓
+LLM
+Explains the completed analysis
+```
+
+This approach combines:
+
+* Natural-language accessibility
+* Deterministic mathematics
+* Structured validation
+* Reproducible analysis
+* Data provenance
+* Local AI inference
+* Modular analytical engines
+* Professional reporting
+
+Athena is intended to act as an intelligent interface to a quantitative research system—not as a language model pretending to be one.
+
+---
+
+## Broader Athena Platform
+
+The quantitative research engine is Athena’s most advanced implemented workflow, but it is also an example of the broader Athena architecture.
+
+Athena is being developed as a local intelligence layer capable of routing natural-language requests into specialized computational systems.
+
+The same pattern can support:
+
+* Quantitative finance
+* Mathematical modeling
+* Data analysis
+* Programming assistance
+* File and project analysis
+* Study-material generation
+* Document creation
+* Research workflows
+* Specialized local AI agents
+
+Athena’s purpose is not merely to answer questions.
+
+Its purpose is to determine what work needs to happen, route that work to the correct system, execute it, and return a usable result.
+
+---
+
+## Local-First AI
+
+Athena connects to locally hosted language models through Ollama.
+
+Local inference provides greater control over:
+
+* Privacy
+* Model selection
+* Prompt behavior
+* Specialized assistants
+* Project context
+* Large local models
+* Offline development
+* Sensitive research material
+
+Models tested within the broader Athena environment include:
+
+* Qwen 3.5 122B
+* DeepSeek-R1 70B
+* Custom mathematics models
+* Custom programming models
+* Local embedding models
+
+The quantitative calculations themselves are executed through Python rather than delegated to the language model.
+
+---
+
+## System Architecture
+
+Athena consists of several cooperating layers.
+
+### User Interface
+
+Receives conversational requests and displays completed analysis, explanations, and reports.
+
+### Request Interpretation
+
+Determines the user’s intent and converts natural language into structured commands.
+
+### Validation
+
+Ensures the analytical request contains valid securities, models, parameters, and execution settings.
+
+### Orchestration
+
+Routes the validated request through the required data, diagnostics, risk, simulation, and reporting components.
+
+### Market Data
+
+Retrieves and normalizes historical financial data through a provider-independent interface.
+
+### Quantitative Engines
+
+Perform deterministic statistical, risk, simulation, portfolio, and scenario calculations.
+
+### Structured Results
+
+Store the completed analysis in reusable research objects.
+
+### Reporting
+
+Formats the result for human review or downstream software.
+
+### AI Commentary
+
+Explains the completed research without altering the underlying numerical results.
+
+---
+
+## Technology
+
+Athena currently uses technologies including:
+
+* Python
+* Local large language models
+* Ollama
+* Tkinter
+* Statistical modeling
+* Financial time-series analysis
+* Market-data APIs
+* Structured data validation
+* Monte Carlo architecture
+* LaTeX and PDF-generation workflows
+* Modular tool orchestration
+* macOS application packaging
+
+---
+
+## Running Athena
+
+### Requirements
+
+The current development version requires:
+
+* Python 3.10 or later
+* Ollama
+* A supported local language model
+* Required Python packages
+* Valid market-data credentials for live data retrieval
+* Sufficient system memory for the selected local model
+
+### Launch the Application
+
+```bash
+python main.py
+```
+
+Ollama must be running before Athena can use its local language-model features.
+
+```bash
+ollama list
+```
+
+A smaller compatible model can be configured when the full development model exceeds the available hardware.
+
+---
+
+## Development Status
+
+Athena is an active development project.
+
+The quantitative research foundation currently demonstrates:
+
+* Natural-language request interpretation
+* Structured request validation
+* Market-data retrieval
+* Statistical return diagnostics
+* Historical VaR and Expected Shortfall
+* Gaussian VaR and Expected Shortfall
+* Student-t VaR and Expected Shortfall
+* Tail-risk model comparison
+* Structured research outputs
+* Data and model provenance
+* Report generation
+* Local AI explanation
+* Rule-based parsing fallback
+* End-to-end request-to-report execution
+
+The platform should currently be considered experimental rather than production financial software.
+
+Athena does not provide investment advice.
+
+---
+
+## Quantitative Roadmap
+
+### Portfolio Analytics
+
+* Multi-asset portfolios
+* Position sizing
+* Portfolio volatility
+* Covariance and correlation analysis
+* Marginal risk
+* Component risk
+* Risk contribution
+* Diversification analysis
+
+### Simulation
+
+* Monte Carlo price paths
+* Portfolio outcome distributions
+* Parameterized simulation requests
+* Reproducible random seeds
+* Simulation diagnostics
+* Probability-of-loss analysis
+
+### Stress Testing
+
+* Historical crisis scenarios
+* Custom market shocks
+* Volatility shocks
+* Correlation breakdowns
+* Multi-factor stress scenarios
+* Portfolio loss attribution
+
+### Model Validation
+
+* VaR backtesting
+* Exception tracking
+* Kupiec testing
+* Model calibration diagnostics
+* Rolling risk analysis
+* Forecast-versus-realized comparisons
+
+### Research Expansion
+
+* Factor models
+* Regression analysis
+* Beta and exposure analysis
+* Drawdown analytics
+* Regime detection
+* Optimization
+* Strategy experimentation
+* Performance attribution
+
+### Reporting
+
+* Interactive dashboards
+* Exportable research reports
+* PDF generation
+* Comparison reports
+* Saved research sessions
+* Portfolio monitoring
+* Reusable analytical templates
+
+---
+
+## Long-Term Vision
+
+Athena is an exploration of what financial research and personal computing can become when artificial intelligence functions as the interface to rigorous computational systems.
+
+Instead of manually selecting data, configuring models, running scripts, comparing results, and constructing a report, the user can express the research goal directly:
+
+```text
+Analyze the risk in this portfolio.
+
+Compare Apple’s tail risk under multiple models.
+
+Show how this position might behave during a financial crisis.
+
+Run a Monte Carlo simulation and explain the downside scenarios.
+```
+
+Athena can determine the required workflow, execute the appropriate analytical systems, and return a result that is both mathematically grounded and understandable.
+
+The goal is not to build a chatbot that talks about quantitative finance.
+
+**The goal is to build an AI-native quantitative research platform.**
+
+---
+
+## Author
+
+**Dane Anderson**
+
+Building at the intersection of artificial intelligence, quantitative finance, mathematics, and human-centered software systems.
+
+---
+
+## Disclaimer
+
+Athena is an experimental educational and research project.
+
+Its outputs are not financial advice and should not be used as the sole basis for investment, trading, or risk-management decisions.
