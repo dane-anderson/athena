@@ -1,4 +1,4 @@
-````markdown
+
 # Athena
 
 **A local-first AI quantitative research platform that converts natural-language financial questions into validated Python analysis and structured research reports.**
