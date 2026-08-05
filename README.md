@@ -352,7 +352,6 @@ Athena determines what kind of work is required, selects the appropriate tool, c
 
 Building at the intersection of artificial intelligence, quantitative finance, mathematics, and human-centered software systems.
 
-[GitHub Profile](https://github.com/dane-anderson)
 
 ---
 
