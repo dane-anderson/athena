@@ -2,6 +2,22 @@
 
 **Athena is a local-first AI system that turns natural-language requests into actions, analysis, explanations, and finished work by coordinating specialized tools.**
 
+---
+
+## Athena Ecosystem
+
+Athena is organized as a modular platform composed of a shared intelligence layer, a native interface, and independently maintained specialized tools.
+
+| Repository | Purpose |
+|---|---|
+| [Athena Core](https://github.com/dane-anderson/athena) | Shared intelligence, quantitative research, orchestration, and analysis |
+| [Athena Desktop](https://github.com/dane-anderson/athena-desktop) | Native macOS interface and command-routing client |
+| [Dane Engine](https://github.com/dane-anderson/dane-engine) | Academic document ingestion, local-AI generation, and PDF artifact creation |
+
+Athena Core serves as the central intelligence and orchestration layer for the wider Athena ecosystem.
+
+---
+
 Athena is designed to be more than a chatbot.
 
 A user should be able to describe what they need in ordinary language. Athena interprets the request, determines which capabilities are required, routes the work to the appropriate tool, and returns a useful result.
