@@ -9,7 +9,13 @@ Instead of asking one language model to do everything, Athena separates language
 Athena currently focuses on quantitative financial research and is designed to expand through independently maintained tools such as Dane Engine.
 
 ---
+## Athena in Action
 
+![Athena Quant Research](athena-quant-research.png)
+
+Athena turns natural-language research questions into deterministic quantitative analysis using real market data, then uses a local analyst model to interpret the completed results.
+
+---
 ## What Athena Does
 
 A user can ask Athena a research question in ordinary language:
