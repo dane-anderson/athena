@@ -27,6 +27,15 @@ Athena can interpret that request as:
 Athena then retrieves market data, performs the quantitative analysis in Python, compares the models, generates a structured research report, and passes the completed results to a local analyst model for interpretation.
 
 The user does not need to know command syntax, ticker symbols, model names, or which internal module should run.
+---
+
+## Projects
+
+- **[Athena Core](https://github.com/dane-anderson/athena)** — Local AI reasoning, quantitative research, model orchestration, and the native macOS application.
+- **[Dane Engine](https://github.com/dane-anderson/dane-engine)** — Academic document intelligence, study-generation workflows, LaTeX, and automated PDF creation.
+
+Athena Core is the central AI system. Dane Engine is a specialized tool that can be connected to Athena for academic workflows.
+
 
 ---
 
