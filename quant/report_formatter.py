@@ -17,10 +17,9 @@ def format_percent(value):
     return f"{value:.2%}"
 
 
-
 def format_risk_report(
     report,
-    asset="UNKNOWN"
+    asset=None,
 ):
     """
     Format Athena risk report.
@@ -33,6 +32,12 @@ def format_risk_report(
     """
 
     diagnostics = report.diagnostics
+
+    asset = (
+        asset
+        or getattr(report, "symbol", None)
+        or "UNKNOWN"
+    )
 
     lines = []
 
@@ -76,7 +81,6 @@ def format_risk_report(
             f"{report.metadata.end_date}"
         )
 
-
     lines.append(
         "\nDISTRIBUTION ANALYSIS"
     )
@@ -101,10 +105,9 @@ def format_risk_report(
     )
 
     lines.append(
-        f"Kurtosis: "
+        f"Excess Kurtosis: "
         f"{diagnostics.kurtosis:.2f}"
     )
-
 
     lines.append(
         "\nRISK MODEL COMPARISON"
@@ -118,10 +121,9 @@ def format_risk_report(
 
         lines.append(
             f"{model.model:<25}"
-            f"{format_percent(model.var):<12}"
-            f"{format_percent(model.expected_shortfall)}"
+            f"{format_percent(abs(model.var)):<12}"
+            f"{format_percent(abs(model.expected_shortfall))}"
         )
-
 
     lines.append(
         "\nATHENA FLAGS"
@@ -140,6 +142,5 @@ def format_risk_report(
         lines.append(
             "- No risk flags detected."
         )
-
 
     return "\n".join(lines)

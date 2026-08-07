@@ -8,7 +8,7 @@ from alpaca.data.historical import StockHistoricalDataClient
 from alpaca.data.requests import StockBarsRequest
 from alpaca.data.timeframe import TimeFrame
 from datetime import datetime, timedelta, timezone
-from alpaca.data.enums import DataFeed
+from alpaca.data.enums import DataFeed, Adjustment
 load_dotenv()
 
 class AlpacaProvider:
@@ -40,6 +40,7 @@ class AlpacaProvider:
             timeframe=TimeFrame.Day,
             start=start,
             end=end,
+            adjustment=Adjustment.ALL,
             feed=DataFeed.IEX,
         )
 

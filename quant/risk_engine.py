@@ -3,7 +3,7 @@ Athena Risk Analysis Engine
 
 Coordinates:
 - Distribution diagnostics
-- Tail risk model comparison
+- Tail-risk model comparison
 
 Produces a complete quantitative
 risk analysis.
@@ -36,10 +36,10 @@ class RiskAnalysisResult:
     metadata: MarketDataMetadata | None = None
 
 
-
 def analyze_risk(
     returns,
-    confidence=0.95
+    confidence=0.95,
+    models=None,
 ):
     """
     Run Athena risk analysis.
@@ -47,21 +47,25 @@ def analyze_risk(
     Workflow:
 
     1. Understand distribution
-    2. Run competing risk models
+    2. Run requested risk models
     3. Return structured results
+
+    If models is not provided,
+    all available risk models run.
     """
 
     diagnostics = distribution_summary(
         returns
     )
 
-    models = run_tail_risk_analysis(
+    model_results = run_tail_risk_analysis(
         returns,
-        confidence
+        confidence,
+        models=models,
     )
 
     return RiskAnalysisResult(
         diagnostics=diagnostics,
-        models=models,
-        flags=[]
+        models=model_results,
+        flags=[],
     )
