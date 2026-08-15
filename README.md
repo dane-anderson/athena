@@ -1,24 +1,78 @@
 # Athena
 
-**Athena is a local-first AI research system that turns natural-language questions into deterministic analysis and finished research outputs.**
+**Athena is a local-first multi-agent AI research system that combines specialized local language models, deterministic Python computation, and quantitative research tools within a unified architecture.**
 
-Instead of asking one language model to do everything, Athena separates language understanding from computation.
+Instead of relying on one general-purpose language model to perform every task, Athena separates responsibilities across specialized local models and deterministic tools.
 
-**AI interprets. Python calculates. Specialized models analyze the completed results.**
+**AI interprets. Python calculates. Specialized agents collaborate.**
 
-Athena currently focuses on quantitative financial research and is designed to expand through independently maintained tools such as Dane Engine.
+Athena currently combines a working quantitative-finance research engine with a local multi-agent orchestration system and a native macOS interface.
 
 ---
+
 ## Athena in Action
 
 ![Athena Quant Research](athena-quant-research.png)
 
-Athena turns natural-language research questions into deterministic quantitative analysis using real market data, then uses a local analyst model to interpret the completed results.
+Athena converts natural-language research questions into deterministic quantitative analysis using real market data, then uses specialized local AI models to interpret completed results.
+
+The same orchestration layer can also route non-quantitative requests to specialized models for research, coding, security review, reasoning, and general assistance.
 
 ---
+
+## Multi-Agent Architecture
+
+Athena uses specialized local models rather than sending every request to one large language model.
+
+Current responsibilities include:
+
+| Agent Role | Responsibility |
+|---|---|
+| Coordinator | Routes requests to the appropriate specialist |
+| General Assistant | Handles everyday tasks, summaries, organization, and lightweight work |
+| Reasoning Agent | Handles difficult analysis, architecture, and strategic reasoning |
+| Research Agent | Compares technologies, analyzes documents, and produces research briefings |
+| Coding Agent | Handles software development, debugging, and implementation |
+| Security & QA Agent | Reviews code, identifies vulnerabilities, and challenges unsafe assumptions |
+| Quantitative Analyst | Interprets completed quantitative research |
+| Memory System | Provides embeddings, retrieval, and future long-term knowledge storage |
+
+```text
+                           User
+                            |
+                            v
+                       Athena Core
+                            |
+                            v
+                     Request Analysis
+                            |
+                +-----------+-----------+
+                |                       |
+          Quantitative?              General
+                |                       |
+                v                       v
+        Quant Research Tool       Agent Router
+                |                       |
+                |          +------------+-------------+
+                |          |            |             |
+                |       Research      Coding       Security
+                |          |            |             |
+                |       Local AI     Local AI      Local AI
+                |          \            |            /
+                |           \           |           /
+                +------------+----------+----------+
+                             |
+                             v
+                       Athena Response
+```
+
+This architecture allows Athena to reserve large models for difficult work while using smaller or specialized models where appropriate.
+
+---
+
 ## What Athena Does
 
-A user can ask Athena a research question in ordinary language:
+A user can ask Athena a financial research question in ordinary language:
 
 > How ugly is Nvidia one-in-a-hundred left-tail risk over the last five years?
 
@@ -30,93 +84,166 @@ Athena can interpret that request as:
 - Confidence level: 99%
 - Models: Historical, Gaussian, and Student-t
 
-Athena then retrieves market data, performs the quantitative analysis in Python, compares the models, generates a structured research report, and passes the completed results to a local analyst model for interpretation.
+Athena then:
+
+1. Resolves the company or ticker symbol
+2. Retrieves real market data
+3. Constructs a historical return series
+4. Calculates distribution diagnostics
+5. Runs deterministic quantitative models
+6. Compares model results
+7. Generates a structured research report
+8. Passes the completed results to a specialized local analyst model for interpretation
 
 The user does not need to know command syntax, ticker symbols, model names, or which internal module should run.
----
 
-## Projects
-
-- **[Athena Core](https://github.com/dane-anderson/athena)** — Local AI reasoning, quantitative research, model orchestration, and the native macOS application.
-- **[Dane Engine](https://github.com/dane-anderson/dane-engine)** — Academic document intelligence, study-generation workflows, LaTeX, and automated PDF creation.
-
-Athena Core is the central AI system. Dane Engine is a specialized tool that can be connected to Athena for academic workflows.
-
+For non-quantitative requests, Athena's orchestration layer determines which specialized local model is best suited to handle the task.
 
 ---
 
 ## Core Architecture
 
+Athena combines deterministic request processing with specialized local AI models.
+
 ```text
 Natural-Language Request
-        ↓
-Athena Core
-        ↓
-Deterministic Request Parser
-        ↓
-     Ambiguous?
-     /       \
-   No         Yes
-   ↓           ↓
-Validated    Local LLM
-Request      Interpretation
-   \           /
-    \         /
-     ↓       ↓
-Deterministic Validation
-        ↓
-Quant Research Tool
-        ↓
-Market Data + Python Models
-        ↓
-Structured Research Report
-        ↓
-DeepSeek Quant Analyst
-        ↓
-Athena Response
+          |
+          v
+      Athena Core
+          |
+          v
+ Deterministic Request Parser
+          |
+          |
+      Ambiguous?
+       /      \
+     No        Yes
+     |          |
+ Validated   Local LLM
+ Request     Interpretation
+     \          /
+      \        /
+       v      v
+  Parameter Validation
+          |
+          v
+     Task Selection
+       /       \
+      /         \
+ Quant Tool    Agent Router
+     |             |
+     v             v
+ Python         Specialist
+ Models         Local Model
+     |             |
+     +------v------+
+            |
+            v
+      Athena Response
 ```
-
-Athena uses a hybrid reasoning architecture.
 
 Straightforward requests stay fast and deterministic.
 
-When language is unusual or ambiguous, a local language model helps interpret the request. Python then validates the interpretation before quantitative execution begins.
+When quantitative language is unusual or ambiguous, a local language model can assist with interpretation. Python validates extracted values before quantitative execution begins.
 
-This keeps language models out of calculations that should be reproducible.
+For general requests, the orchestration layer routes work to the appropriate specialized model.
+
+---
+
+## Agent Routing
+
+Athena includes an internal routing layer that maps requests to specialized local models.
+
+Examples:
+
+```text
+"Summarize this document."
+        |
+        v
+General Assistant
+```
+
+```text
+"Compare ChromaDB and FAISS."
+        |
+        v
+Research Agent
+```
+
+```text
+"Review this Python login code for vulnerabilities."
+        |
+        v
+Security & QA Agent
+```
+
+```text
+"Design a scalable multi-agent architecture."
+        |
+        v
+Reasoning Agent
+```
+
+```text
+"Calculate NVDA tail risk."
+        |
+        v
+Quant Research Tool
+```
+
+The routing architecture separates model identity from application logic through a model/role registry.
+
+This makes it possible to upgrade or replace a specialist model without rewriting the broader orchestration layer.
 
 ---
 
 ## Quantitative Research Tool
 
-Athena's first major tool is a quantitative research system for financial assets.
+Athena's first major deterministic tool is a quantitative research system for financial assets.
 
-The Quant Research Tool combines natural-language understanding, market data, statistical analysis, deterministic risk models, simulation, reporting, and AI interpretation into one workflow.
+The Quant Research Tool combines:
+
+- Natural-language request interpretation
+- Asset resolution
+- Market-data retrieval
+- Statistical analysis
+- Deterministic risk models
+- Simulation
+- Structured reporting
+- Local AI interpretation
 
 ### Current Workflow
 
 ```text
 Research Question
-      ↓
+      |
+      v
 Asset Resolution
-      ↓
+      |
+      v
 Market Data
-      ↓
+      |
+      v
 Return Series
-      ↓
+      |
+      v
 Distribution Diagnostics
-      ↓
+      |
+      v
 Risk Models
-      ↓
+      |
+      v
 Model Comparison
-      ↓
+      |
+      v
 Risk Flags
-      ↓
+      |
+      v
 Structured Report
-      ↓
+      |
+      v
 AI Analyst Commentary
 ```
-
-Athena can perform research on individual assets or compare multiple assets within a request.
 
 ---
 
@@ -147,9 +274,9 @@ Current diagnostics include:
 - Annualized volatility
 - Skewness
 - Excess kurtosis
-- Distribution normality testing
+- Distribution analysis
 - Fat-tail detection
-- Model-disagreement flags
+- Cross-model comparison
 
 ### Tail-Risk Models
 
@@ -178,10 +305,11 @@ Multiple confidence levels and model selections can be requested directly in nat
 
 ## Example Research Output
 
-A five-year, 99% NVDA analysis produces a report containing:
+A completed NVDA analysis can produce a report such as:
 
 ```text
 ATHENA RISK RESEARCH REPORT
+================================
 
 Asset: NVDA
 
@@ -189,7 +317,6 @@ MARKET DATA
 Provider: Alpaca
 Feed: IEX
 Frequency: Daily
-Price Observations: 1255
 
 DISTRIBUTION ANALYSIS
 Mean Daily Return
@@ -204,28 +331,36 @@ Student-t
 
 ATHENA FLAGS
 Distribution and model diagnostics
+
+ATHENA QUANT ANALYST COMMENTARY
+Interpretation of completed quantitative results
 ```
 
-The quantitative report is generated from deterministic Python calculations.
+The quantitative results are generated from deterministic Python calculations.
 
-The completed report is then provided to Athena's analyst model for interpretation.
+The completed report is then provided to a specialized local analyst model for interpretation.
 
 ---
 
 ## AI Analyst Layer
 
-Athena uses **DeepSeek-R1 70B** as a local quantitative analyst.
+Athena uses a specialized local reasoning model as a quantitative analyst.
 
-The analyst does not calculate VaR, Expected Shortfall, volatility, or other risk metrics.
+The analyst does not calculate VaR, Expected Shortfall, volatility, or other quantitative metrics.
 
-Its job begins **after Python has completed the quantitative research.**
+Its role begins after Python completes the quantitative research.
 
 ```text
 Python Calculates
-      ↓
+      |
+      v
 Structured Results
-      ↓
-DeepSeek Interprets
+      |
+      v
+Local AI Analyst
+      |
+      v
+Research Commentary
 ```
 
 The analyst focuses on:
@@ -233,7 +368,7 @@ The analyst focuses on:
 - Observed distribution behavior
 - Differences between risk models
 - Tail-risk implications
-- Areas of model disagreement
+- Model disagreement
 - Important findings in the completed research
 
 This separation reduces the risk of a language model inventing quantitative results.
@@ -244,37 +379,57 @@ This separation reduces the risk of a language model inventing quantitative resu
 
 Athena is designed so the user does not have to learn a special command language.
 
-The request system uses two paths.
-
 ### Deterministic Fast Path
 
-Clear requests are parsed directly in Python.
+Clear quantitative requests are parsed directly in Python.
 
 For example:
 
 > Analyze Nvidia downside risk over five years at 99% confidence using Student-t.
 
-Athena can deterministically identify the asset, time period, confidence level, model, and task.
+Athena can deterministically identify:
+
+- Asset
+- Time period
+- Confidence level
+- Model
+- Task
 
 ### LLM Interpretation Path
 
-Less conventional language can be interpreted by a lightweight local model.
+Less conventional quantitative language can be interpreted by a lightweight local model.
 
 For example:
 
 > Show me Nvidia's one-in-a-hundred left-tail loss over the last five years.
 
-The system can recognize that "one-in-a-hundred" refers to a 99% confidence level.
+The system can recognize that:
 
-The language model is not allowed to replace quantitative values already resolved by Python. Extracted parameters are validated before execution.
+- "one-in-a-hundred" refers to a 99% confidence level
+- "left-tail loss" refers to downside risk
 
-This allows Athena to remain conversational without making the language model the source of truth.
+The language model is not allowed to replace quantitative values already resolved by Python.
+
+Extracted parameters are validated before execution.
+
+### Multi-Agent General Path
+
+Requests that are not quantitative can be routed to specialized local models.
+
+Examples include:
+
+- Research
+- Coding
+- Security review
+- Architecture
+- Summarization
+- General assistance
 
 ---
 
 ## Monte Carlo Research
 
-Athena also contains a Monte Carlo simulation engine for forward-path research.
+Athena contains a Monte Carlo simulation engine for forward-path research.
 
 The current engine supports:
 
@@ -287,29 +442,78 @@ The current engine supports:
 - Probability of profit and loss
 - Maximum-drawdown analysis
 
-Monte Carlo simulation is part of the broader Quant Research Tool rather than a separate Athena application.
+Monte Carlo simulation is part of the broader Quant Research Tool rather than a separate application.
 
 Future simulation models can be added without changing Athena's natural-language interface.
 
 ---
 
+## Memory Architecture
+
+Athena is being designed for persistent local memory and retrieval.
+
+The planned architecture combines structured and semantic memory.
+
+```text
+                    Athena Memory
+                          |
+              +-----------+-----------+
+              |                       |
+              v                       v
+      Structured Memory        Semantic Memory
+              |                       |
+              v                       v
+         Local Database          Vector Store
+              |                       |
+      Preferences / Facts      Conversations
+      Settings                 Documents
+      Explicit State           Research History
+```
+
+Structured information is better suited to conventional storage.
+
+Examples include:
+
+- User preferences
+- Application settings
+- Explicit facts
+- Agent configuration
+
+Semantic information is better suited to embedding-based retrieval.
+
+Examples include:
+
+- Conversation history
+- Research notes
+- Documents
+- Prior project context
+
+A local embedding model provides the foundation for future retrieval workflows.
+
+---
+
 ## Native macOS App
 
-Athena includes a native macOS application built with **Swift and SwiftUI**.
+Athena includes a native macOS application built with Swift and SwiftUI.
 
-The native application lives inside Athena Core and acts as a thin interface to the same reasoning and research system used from Python.
+The native application acts as a thin interface to the same reasoning and research system used from Python.
 
 ```text
 Athena.app
-    ↓
+    |
+    v
 Natural-Language Message
-    ↓
+    |
+    v
 Athena Core
-    ↓
-Research Tool
-    ↓
+    |
+    v
+Orchestration / Research Tools
+    |
+    v
 Completed Response
-    ↓
+    |
+    v
 Native Conversation Interface
 ```
 
@@ -323,7 +527,7 @@ The macOS application includes:
 - Local model execution
 - Direct connection to Athena Core
 
-The interface intentionally contains very little research logic.
+The interface intentionally contains little research logic.
 
 If a request works through Athena Core, the same request can be submitted through the native application.
 
@@ -331,36 +535,60 @@ If a request works through Athena Core, the same request can be submitted throug
 
 ## Athena + Dane Engine
 
-The project is organized around two repositories.
+Athena is designed as a modular AI platform.
 
-| Repository | Purpose |
-|---|---|
-| [Athena Core](https://github.com/dane-anderson/athena) | AI reasoning, quantitative research, model orchestration, and the native macOS interface |
-| [Dane Engine](https://github.com/dane-anderson/dane-engine) | Academic document processing, mathematical study workflows, LaTeX generation, and PDF creation |
+### Athena Core
+
+Athena Core provides:
+
+- AI orchestration
+- Multi-agent routing
+- Quantitative research
+- Local-model execution
+- Native macOS integration
 
 ### Dane Engine
 
-Dane Engine is a specialized academic tool designed to process real course materials and generate structured study resources.
+Dane Engine is a specialized academic intelligence tool for:
+
+- Course-document processing
+- Study-generation workflows
+- Mathematical content
+- LaTeX generation
+- Automated PDF creation
 
 Its workflow includes:
 
 ```text
 Course Documents
-      ↓
+      |
+      v
 Document Ingestion
-      ↓
+      |
+      v
 Text Processing
-      ↓
+      |
+      v
 Problem Identification
-      ↓
+      |
+      v
 Local AI Generation
-      ↓
+      |
+      v
 LaTeX
-      ↓
+      |
+      v
 Finished PDF
 ```
 
-Dane Engine remains independently maintainable while fitting into Athena's broader tool architecture.
+Dane Engine remains independently maintainable while fitting into Athena's broader modular architecture.
+
+---
+
+## Projects
+
+- **[Athena Core](https://github.com/dane-anderson/athena)** — Local multi-agent AI orchestration, quantitative research, model routing, and native macOS application.
+- **[Dane Engine](https://github.com/dane-anderson/dane-engine)** — Academic document intelligence, mathematical study workflows, LaTeX, and automated PDF creation.
 
 ---
 
@@ -369,7 +597,12 @@ Dane Engine remains independently maintainable while fitting into Athena's broad
 ```text
 Athena Core/
 ├── core/
-│   └── orchestrator.py
+│   ├── orchestrator.py
+│   └── fiona_router.py
+│
+├── staff/
+│   ├── employee_registry.py
+│   └── [agent configuration]
 │
 ├── reasoning/
 │   ├── parser.py
@@ -416,17 +649,50 @@ Athena Core/
 
 Athena runs local models through Ollama.
 
-Different models can be assigned different responsibilities instead of routing every request through one large model.
+The system is intentionally model-agnostic at the orchestration layer.
 
-Current roles include:
+Different local models can be assigned different responsibilities based on their capabilities.
 
-- **Qwen 3 14B** — lightweight quantitative request interpretation
-- **DeepSeek-R1 70B** — quantitative analyst
-- **Qwen 3.5 122B** — larger general reasoning
-- Specialized local mathematics and coding models
-- Local embedding models for future retrieval workflows
+Current categories include:
 
-This architecture allows Athena to balance latency, reasoning quality, privacy, and hardware usage.
+- Coordinator / routing model
+- Large reasoning model
+- Research and document-analysis model
+- Coding-focused model
+- Security-focused model
+- Quantitative reasoning model
+- Embedding model
+
+This architecture allows Athena to balance:
+
+- Latency
+- Reasoning quality
+- Memory usage
+- Privacy
+- Hardware utilization
+
+It also makes individual model upgrades easier because orchestration logic can reference roles rather than hardcoded model identifiers.
+
+---
+
+## Engineering Highlights
+
+Athena currently demonstrates:
+
+- Local multi-agent AI architecture
+- Specialized model routing
+- Agent and model registry design
+- Deterministic tool execution
+- Hybrid LLM and Python workflows
+- Quantitative finance research pipelines
+- Local inference through Ollama
+- Statistical risk modeling
+- Monte Carlo simulation
+- Real market-data integration
+- Native SwiftUI application development
+- Automated Python testing
+- Modular tool architecture
+- Retrieval and memory-system design
 
 ---
 
@@ -440,19 +706,27 @@ They should not be trusted to invent quantitative calculations.
 
 ### Deterministic When Possible
 
-Requests that Python can understand do not require an unnecessary LLM call.
+Requests that Python can reliably understand do not require an unnecessary LLM call.
 
-### Models Have Specialized Roles
+### Specialized Models Over One General Model
 
-Smaller models handle lightweight interpretation while larger models are reserved for deeper analytical work.
+Different tasks benefit from different models.
+
+Athena routes work according to capability rather than using the largest model for every request.
+
+### Models and Roles Are Decoupled
+
+Application logic operates through agent roles and a model registry.
+
+Models can be replaced or upgraded without redesigning the full system.
 
 ### Tools Remain Modular
 
-Quantitative research, academic document generation, and future capabilities remain separate systems with clear boundaries.
+Quantitative research, academic document generation, memory, and future capabilities remain separate systems with clear boundaries.
 
 ### Natural Language Is the Interface
 
-The user should describe the goal rather than learn the internal architecture.
+The user describes the goal rather than learning the internal architecture.
 
 ### Local First
 
@@ -476,6 +750,7 @@ Athena currently uses:
 - Statistical time-series analysis
 - Monte Carlo simulation
 - Structured Python data models
+- YAML-based agent configuration
 - pytest
 - Git
 - GitHub
@@ -490,8 +765,11 @@ Athena is an active AI and quantitative-engineering project.
 Working components include:
 
 - Native macOS Athena application
-- Natural-language research requests
-- Deterministic request parsing
+- Natural-language requests
+- Multi-agent request routing
+- Specialized local-model execution
+- Agent/model registry
+- Deterministic quantitative request parsing
 - Local-LLM fallback interpretation
 - Dynamic company and ticker resolution
 - Alpaca market-data integration
@@ -501,11 +779,10 @@ Working components include:
 - Gaussian VaR and Expected Shortfall
 - Student-t VaR and Expected Shortfall
 - Cross-model risk comparison
-- Multi-asset request handling
 - Structured research reports
-- DeepSeek quantitative commentary
+- Local quantitative analyst commentary
 - Monte Carlo simulation engine
-- Automated tests for quantitative and reasoning components
+- Automated tests for orchestration and quantitative workflows
 
 Athena is a research and engineering project, not a production trading system.
 
@@ -513,22 +790,27 @@ Athena is a research and engineering project, not a production trading system.
 
 ## Next Development Areas
 
-Current development is focused on expanding the Quant Research Tool while preserving the same natural-language interface.
+Current development is focused on extending Athena's multi-agent architecture while preserving deterministic quantitative workflows.
 
 Planned work includes:
 
-- Unified portfolio research
+- Dynamic LLM-based routing
+- Multi-agent task collaboration
+- Shared task context
+- Hybrid structured and vector memory
+- Persistent research sessions
+- Research retrieval
+- Dedicated approval gates for sensitive actions
+- Security review pipelines
+- Automated code-review workflows
+- Portfolio optimization
 - Historical stress testing
 - Additional Monte Carlo models
 - Backtesting
-- Portfolio optimization
 - Factor analysis
-- Persistent research sessions
-- Conversation memory
-- Research retrieval
 - Charts and visual research outputs
-- Additional Athena tools
 - Expanded Dane Engine integration
+- Additional modular Athena tools
 
 ---
 
@@ -536,13 +818,23 @@ Planned work includes:
 
 Financial research often requires switching between market-data platforms, Python scripts, statistical models, spreadsheets, language models, and reporting tools.
 
-I wanted to explore a different workflow:
+AI development introduces a similar problem: different models are good at different tasks, but coordinating them can become its own workflow.
 
-**Describe the research problem in ordinary language and let one system organize the analysis.**
+I wanted to explore a different approach:
 
-Athena is my attempt to combine AI reasoning with deterministic software rather than treating a language model as the entire application.
+**Describe the problem in ordinary language and let one local system organize the work.**
 
-The project has become an exploration of AI systems engineering, quantitative finance, mathematics, local inference, and human-computer interaction.
+Athena combines deterministic software with specialized local AI models rather than treating a single language model as the entire application.
+
+The project has evolved into an exploration of:
+
+- AI systems engineering
+- Multi-agent orchestration
+- Quantitative finance
+- Mathematics
+- Local inference
+- Software architecture
+- Human-computer interaction
 
 ---
 
