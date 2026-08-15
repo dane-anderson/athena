@@ -18,7 +18,7 @@ class QuantRequest:
     simulations: int = 10000
 
     confidence_levels: list[float] = field(
-        default_factory=lambda: [0.95]
+        default_factory=lambda: [0.99]
     )
 
     models: list[str] = field(

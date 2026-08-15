@@ -108,6 +108,13 @@ AMBIGUOUS_SINGLE_WORDS = {
     "general",
     "global",
     "national",
+    # Natural-language question words
+    "where",
+    "which",
+    "what",
+    "when",
+    "why",
+    "how",
     "new",
     "united",
     "us",

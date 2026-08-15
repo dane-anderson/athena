@@ -12,6 +12,9 @@ Quant Research Tool.
 
 from models.ollama_client import OllamaClient
 
+from core.fiona_router import route_task
+from staff.employee_registry import get_model
+
 from reasoning.parser import (
     parse_quant_request,
 )
@@ -71,9 +74,8 @@ class AthenaOrchestrator:
 
         self.llm = OllamaClient()
 
-        self.quant_tool = (
-            QuantResearchTool()
-        )
+        self.quant_tool = QuantResearchTool()
+
 
     def process_request(
         self,
@@ -86,13 +88,13 @@ class AthenaOrchestrator:
             deterministic parser
 
         Ambiguous quantitative language:
-            Qwen 14B parser
+            LLM parser
 
         Quantitative execution:
             Quant Research Tool
 
         General conversation:
-            Athena general model
+            Fiona routes to employee
         """
 
         baseline = parse_quant_request(
@@ -100,6 +102,7 @@ class AthenaOrchestrator:
         )
 
         request = baseline
+
 
         if self._needs_llm_parser(
             message,
@@ -112,15 +115,18 @@ class AthenaOrchestrator:
                 message
             )
 
+
         if request.task in QUANT_TASKS:
 
             return self.quant_tool.execute(
                 request
             )
 
+
         return self._general_response(
             message
         )
+
 
     def _needs_llm_parser(
         self,
@@ -128,33 +134,48 @@ class AthenaOrchestrator:
         baseline,
     ):
         """
-        Use Qwen only when deterministic parsing
-        could not classify quantitative language.
+        Use LLM parser only when deterministic parsing
+        cannot classify quantitative language.
         """
 
-        if (
-            baseline.task
-            != "general_analysis"
-        ):
+        if baseline.task != "general_analysis":
             return False
 
+
         text = message.lower()
+
 
         return any(
             phrase in text
             for phrase in QUANT_LANGUAGE
         )
 
+
     def _general_response(
         self,
         message,
     ):
         """
-        Athena's ordinary conversational path.
+        Athena's general conversation path.
+
+        Fiona decides which employee should handle
+        the request.
         """
+
+        decision = route_task(
+            message
+        )
+
+        model = get_model(
+            decision["employee"]
+        )
+
 
         prompt = f"""
 You are Athena, a local AI assistant.
+
+You are being assisted by:
+{decision["employee"]}
 
 User request:
 
@@ -163,9 +184,10 @@ User request:
 Respond helpfully.
 """
 
+
         return self.llm.generate(
             prompt,
-            model="qwen3.5:122b",
+            model=model,
         )
 
 

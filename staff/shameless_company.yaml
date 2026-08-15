@@ -1,0 +1,95 @@
+company: Shameless AI
+
+employees:
+
+  fiona:
+    name: Fiona Gallagher
+    model: fiona
+    role: chief_of_staff
+    department: operations
+    job: >
+      Manages the AI company. Routes requests, coordinates employees,
+      decides who should handle tasks, and combines results.
+
+  lip:
+    name: Lip Gallagher
+    model: lip
+    role: principal_ai_scientist
+    department: intelligence
+    job: >
+      Handles complex reasoning, architecture decisions, technical strategy,
+      difficult analysis, and high-level problem solving.
+
+  ian:
+    name: Ian Gallagher
+    model: ian
+    role: reasoning_specialist
+    department: analysis
+    job: >
+      Provides deep reasoning, careful analysis, and second opinions
+      on difficult problems.
+
+  carl:
+    name: Carl Gallagher
+    model: carl
+    role: software_engineer
+    department: engineering
+    job: >
+      Builds software, writes code, debugs issues, and implements features.
+
+  mickey:
+    name: Mickey Milkovich
+    model: mickey
+    role: security_qa
+    department: security
+    job: >
+      Reviews code and systems for security problems, bugs, bad assumptions,
+      prompt injection risks, and release issues.
+
+  jimmy:
+    name: Jimmy
+    model: jimmy
+    role: general_assistant
+    department: support
+    job: >
+      Handles everyday tasks, summaries, organization, formatting,
+      brainstorming, and quick fixes.
+
+  debbie:
+    name: Debbie Gallagher
+    model: debbie
+    role: research_intelligence
+    department: research
+    job: >
+      Researches information, reads documents, compares options,
+      investigates technology, and creates briefings.
+
+  kev:
+    name: Kev
+    model: kev
+    role: memory_librarian
+    department: knowledge
+    job: >
+      Handles embeddings, retrieval, document memory, and knowledge storage.
+
+future_hires:
+
+  mickey_security_upgrade:
+    name: Mickey
+    role: advanced_security_engineer
+    status: planned
+
+  gus:
+    name: Gus
+    role: writing_communications
+    status: planned
+
+  sean:
+    name: Sean
+    role: operations_workflow
+    status: planned
+
+  mike:
+    name: Mike
+    role: utility_automation
+    status: planned

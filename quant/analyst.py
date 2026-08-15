@@ -101,6 +101,20 @@ Prioritize:
 2. What does it imply?
 3. Why does model choice matter?
 
+- Do not include memo-template fields such as Date, To, From, Subject, signatures, or placeholders.
+- Do not include phrases such as "please reach out" or other business-letter boilerplate.
+- Do not recommend trades, hedges, exposure changes, diversification actions, or portfolio adjustments.
+- End with the quantitative conclusion, not a recommendation.
+
+If the report contains more than one asset:
+
+- Begin with the direct comparative conclusion.
+- State which asset shows the greater downside tail based only on the supplied VaR and Expected Shortfall results.
+- Compare the assets under the same models before discussing them individually.
+- Highlight where the supplied models agree or disagree.
+- Do not bury the main comparison below asset-by-asset summaries.
+- Do not calculate new statistics or invent values.
+
 
 
 Completed Risk Report:

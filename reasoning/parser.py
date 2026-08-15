@@ -535,7 +535,7 @@ def parse_quant_request(message):
 
     if not confidence_levels:
         confidence_levels = [
-            0.95
+            0.99
         ]
 
     # -----------------------------------------------------
