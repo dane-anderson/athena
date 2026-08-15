@@ -1,6 +1,6 @@
 # Athena
 
-**Athena is a local-first multi-agent AI research system that combines specialized local language models, deterministic Python computation, and quantitative research tools within a unified architecture.**
+**Athena is a local-first multi-agent AI research system that combines specialized local language models, deterministic Python computation, and quantitative research tools within a unified architecture. Quantitative research is Athena’s first major tool, not its only role; general requests are routed to specialized local models, while deterministic tools handle structured tasks.*
 
 Instead of relying on one general-purpose language model to perform every task, Athena separates responsibilities across specialized local models and deterministic tools.
 
@@ -72,6 +72,7 @@ This architecture allows Athena to reserve large models for difficult work while
 
 ## What Athena Does
 
+Athena can answer general questions and route research, coding, security, reasoning, and assistant tasks to specialized local models. When a request requires deterministic execution, Athena can invoke a dedicated tool such as the Quant Research Tool.
 A user can ask Athena a financial research question in ordinary language:
 
 > How ugly is Nvidia one-in-a-hundred left-tail risk over the last five years?
@@ -197,7 +198,7 @@ This makes it possible to upgrade or replace a specialist model without rewritin
 
 ---
 
-## Quantitative Research Tool
+## Tool #1: Quantitative Research
 
 Athena's first major deterministic tool is a quantitative research system for financial assets.
 
