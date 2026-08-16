@@ -11,10 +11,10 @@ Quant Research Tool.
 """
 
 from models.ollama_client import OllamaClient
-
+from memory.conversation_memory import save_conversation
 from core.fiona_router import route_task
 from staff.employee_registry import get_model
-
+from memory.retrieval import retrieve
 from reasoning.parser import (
     parse_quant_request,
 )
@@ -170,6 +170,15 @@ class AthenaOrchestrator:
             decision["employee"]
         )
 
+        memories = retrieve(
+            message,
+            limit=5,
+        )
+
+        memory_context = "\n\n".join(
+            memory["content"]
+            for memory in memories
+        )
 
         prompt = f"""
 You are Athena, a local AI assistant.
@@ -177,18 +186,31 @@ You are Athena, a local AI assistant.
 You are being assisted by:
 {decision["employee"]}
 
+Relevant memory:
+{memory_context}
+
 User request:
 
 {message}
+
+Use the memory only when it is relevant.
+Do not invent facts that are not supported by the memory.
 
 Respond helpfully.
 """
 
 
-        return self.llm.generate(
+        response = self.llm.generate(
             prompt,
             model=model,
         )
+
+        save_conversation(
+            user_message=message,
+            assistant_response=response,
+        )
+
+        return response
 
 
 def process_request(

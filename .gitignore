@@ -8,3 +8,6 @@ __pycache__/
 .pytest_cache/
 *.pyc
 macos/AthenaNative/.build/
+# Athena local memory
+memory/vector_store/
+memory/school_index.json

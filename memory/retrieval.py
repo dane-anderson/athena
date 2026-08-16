@@ -1,92 +1,68 @@
 """
-Athena Research Librarian
+Athena Memory Retrieval
 
-Finds relevant knowledge from Athena's
-research library.
+Searches Athena's semantic memory using
+Kev embeddings + ChromaDB.
 """
 
-from pathlib import Path
+from memory.memory_store import search_memory
 
 
-LIBRARY_PATH = Path(
-    "memory/research_library"
-)
+def retrieve(query, limit=5):
+    """
+    Return the most relevant stored memories
+    for a query.
+    """
 
+    results = search_memory(
+        query=query,
+        limit=limit,
+    )
 
+    documents = (
+        results.get("documents", [[]])[0]
+    )
 
-def load_documents():
+    metadatas = (
+        results.get("metadatas", [[]])[0]
+    )
 
-    documents = []
+    distances = (
+        results.get("distances", [[]])[0]
+    )
 
-    for file in LIBRARY_PATH.rglob("*.md"):
+    memories = []
 
-        content = file.read_text(
-            encoding="utf-8"
+    for index, document in enumerate(documents):
+
+        metadata = (
+            metadatas[index]
+            if index < len(metadatas)
+            else {}
         )
 
-        documents.append(
+        distance = (
+            distances[index]
+            if index < len(distances)
+            else None
+        )
+
+        memories.append(
             {
-                "file": str(file),
-                "content": content
+                "content": document,
+                "metadata": metadata,
+                "distance": distance,
             }
         )
 
-    return documents
+    return memories
 
 
+if __name__ == "__main__":
 
-def retrieve(query, limit=3):
-
-    """
-    Simple keyword retrieval.
-
-    Later this becomes embedding retrieval
-    using qwen3-embedding.
-    """
-
-    query_words = (
-        query.lower()
-        .split()
+    results = retrieve(
+        "What kind of AI system is Athena?"
     )
 
-
-    results = []
-
-
-    for document in load_documents():
-
-        score = 0
-
-        text = (
-            document["content"]
-            .lower()
-        )
-
-
-        for word in query_words:
-
-            if word in text:
-                score += 1
-
-
-        if score > 0:
-
-            results.append(
-                (
-                    score,
-                    document
-                )
-            )
-
-
-    results.sort(
-        key=lambda x: x[0],
-        reverse=True
-    )
-
-
-    return [
-        document
-        for score, document
-        in results[:limit]
-    ]
+    for result in results:
+        print(result)
