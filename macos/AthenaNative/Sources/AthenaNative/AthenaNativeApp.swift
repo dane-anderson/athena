@@ -338,18 +338,14 @@ struct MessageView: View {
                             )
                         )
 
-                    Text(message.text)
-                        .font(
-                            .system(
-                                size: 14
-                            )
-                        )
-                        .lineSpacing(4)
-                        .textSelection(.enabled)
-                        .frame(
-                            maxWidth: .infinity,
-                            alignment: .leading
-                        )
+                    MathMarkdownView(
+                        markdown: message.text
+                    )
+                    .frame(
+                        maxWidth: .infinity,
+                        minHeight: 50,
+                        alignment: .leading
+                    )    
                 }
 
                 Spacer(minLength: 60)

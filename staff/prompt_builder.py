@@ -112,7 +112,6 @@ def _render_structure(
 
         return "\n".join(lines)
 
-
     if isinstance(value, list):
 
         lines = []
@@ -140,7 +139,6 @@ def _render_structure(
                 )
 
         return "\n".join(lines)
-
 
     return (
         f"{prefix}"
@@ -558,7 +556,6 @@ Relationship: {_humanize(mode_relationship)}
 {_bullets(mode_behavior)}
 """.strip()
 
-
     if specialized_methods:
 
         prompt += f"""
@@ -567,7 +564,6 @@ ROLE-SPECIFIC PROFESSIONAL METHOD
 
 {specialized_methods}
 """
-
 
     if escalation_text:
 
@@ -583,14 +579,12 @@ state that clearly unless Athena's orchestration
 system has already coordinated the handoff.
 """
 
-
     prompt += f"""
 
 BOUNDARIES
 
 {_bullets(boundaries)}
 """
-
 
     if user_preferences:
 
@@ -604,7 +598,6 @@ They do not erase your professional identity.
 {user_preferences.strip()}
 """
 
-
     if memory_context:
 
         prompt += f"""
@@ -616,12 +609,38 @@ Use this context only when it is relevant.
 Treat retrieved memory as contextual evidence,
 not automatically as unquestionable truth.
 
+Preserve the identity of each source.
+
+Do not use possessive descriptions such as
+"your notes", "your lecture", "your course materials",
+or "your project documentation" merely because a file
+exists in the user's storage.
+
+Use the filename or source identity provided in memory.
+For example, MIT material should be described as
+"retrieved MIT reference material" unless metadata
+explicitly identifies it as part of the user's course.
+
+Never invent a lecture, class source, author, institution,
+or ownership relationship that is not present in metadata.
+
+Do not describe retrieved material as the user's
+own notes, course materials, project files, or prior
+statements unless the source information actually
+supports that description.
+
+If a source is reference material from another
+institution, project, document collection, or author,
+identify it accurately when that distinction matters.
+
+If provenance is unclear, describe it neutrally as
+retrieved reference material.
+
 Do not invent details that are not supported
 by the available context.
 
 {memory_context.strip()}
 """
-
 
     prompt += f"""
 

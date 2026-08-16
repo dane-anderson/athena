@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:Athena Core}/macos/AthenaNative",
+            "name": "Debug AthenaNative (macos/AthenaNative)",
+            "target": "AthenaNative",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug AthenaNative (macos/AthenaNative)"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:Athena Core}/macos/AthenaNative",
+            "name": "Release AthenaNative (macos/AthenaNative)",
+            "target": "AthenaNative",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release AthenaNative (macos/AthenaNative)"
+        }
+    ]
+}

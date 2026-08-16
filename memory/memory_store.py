@@ -7,6 +7,7 @@ Persistent semantic memory using:
 """
 
 from pathlib import Path
+import time
 
 import chromadb
 import requests
@@ -90,16 +91,29 @@ def store_memory(
 def search_memory(
     query: str,
     limit=5,
+    scope=None,
 ):
     """
     Retrieve semantically similar memories.
+
+    If a scope is provided, Chroma searches only
+    memories belonging to that scope.
     """
 
     query_embedding = embed_text(query)
 
+    query_args = {
+        "query_embeddings": [query_embedding],
+        "n_results": limit,
+    }
+
+    if scope:
+        query_args["where"] = {
+            "scope": scope
+        }
+
     return collection.query(
-        query_embeddings=[query_embedding],
-        n_results=limit,
+        **query_args
     )
 
 

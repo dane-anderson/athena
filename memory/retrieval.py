@@ -33,6 +33,7 @@ def retrieve(
     results = search_memory(
         query=query,
         limit=limit,
+        scope=scope,
     )
 
     documents = (
@@ -59,19 +60,7 @@ def retrieve(
         )
 
 
-        # Filter by memory scope when requested
-        if scope:
-
-            memory_scope = metadata.get(
-                "scope",
-                metadata.get(
-                    "collection",
-                    None,
-                ),
-            )
-
-            if memory_scope != scope:
-                continue
+       
 
 
         distance = (

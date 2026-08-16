@@ -183,10 +183,17 @@ class AthenaOrchestrator:
         memories = retrieve(
             message,
             limit=5,
+            scope=decision["memory_scope"],
         )
 
         memory_context = "\n\n".join(
-            memory["content"]
+            (
+                f"Source: "
+                f"{memory['metadata'].get('filename', 'unknown')}\n"
+                f"Scope: "
+                f"{memory['metadata'].get('scope', 'unknown')}\n\n"
+                f"{memory['content']}"
+            )
             for memory in memories
         )
 
