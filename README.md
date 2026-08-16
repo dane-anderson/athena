@@ -6,7 +6,7 @@ Instead of relying on one general-purpose language model for every task, Athena 
 
 **AI interprets. Python calculates. Specialized agents collaborate.**
 
-Athena currently includes a working multi-agent orchestration layer, a deterministic quantitative-finance research tool, local model execution through Ollama, and a native macOS interface.
+Athena currently includes a working multi-agent orchestration layer, a deterministic quantitative-finance research tool, local model execution through Ollama, a native macOS interface and persistent semantic memory and conversation memory using local embeddings and vector retrieval.
 
 Quantitative research is Athena's first major tool, not its only role. General requests are routed to specialized local models, while structured tasks can be delegated to deterministic tools.
 
@@ -272,7 +272,7 @@ Dane Engine is designed to remain independently maintainable while becoming anot
 
 ## Memory Direction
 
-Athena's planned persistent memory architecture combines structured and semantic storage.
+Athena currently indexes supported local documents into a persistent vector store using a local embedding model, retrieves relevant chunks semantically, and stores conversation turns for later recall.
 
 ```text
                     Athena Memory
@@ -397,8 +397,12 @@ Working components include:
 - Structured research reports
 - Local analyst commentary
 - Automated orchestration and quantitative tests
+- Persistent semantic document memory
+- Conversation memory
+- Local embedding-based retrieval
+- Incremental school-folder indexing
 
-Athena is a research and engineering project, not a production trading system.
+- Athena is a research and engineering project, not a production trading system.
 
 ---
 
