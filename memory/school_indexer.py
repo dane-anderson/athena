@@ -44,6 +44,40 @@ SUPPORTED_EXTENSIONS = {
 CHUNK_SIZE = 1500
 CHUNK_OVERLAP = 200
 
+def get_memory_scope(path: Path):
+    """
+    Determine Athena memory scope from folder structure.
+    """
+
+    folder_text = " ".join(
+        part.lower()
+        for part in path.parts
+    )
+
+    if "csci" in folder_text:
+        return "computer_science"
+
+    if (
+        "appm" in folder_text
+        or "calc" in folder_text
+        or "mit 18.01" in folder_text
+    ):
+        return "mathematics"
+
+    if "phil" in folder_text:
+        return "humanities"
+
+    if "internship" in folder_text:
+        return "internships"
+
+    if "transfer" in folder_text:
+        return "transfer"
+
+    if "project" in folder_text:
+        return "projects"
+
+    return "school"
+
 
 def file_hash(path: Path):
     """
@@ -296,6 +330,7 @@ def index_file(
 
         metadata = {
             "collection": "school",
+            "scope": get_memory_scope(path),
             "source": source,
             "filename": path.name,
             "extension": (

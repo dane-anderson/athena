@@ -14,7 +14,9 @@ from models.ollama_client import OllamaClient
 from memory.conversation_memory import save_conversation
 from core.fiona_router import route_task
 from staff.employee_registry import get_model
+from staff.prompt_builder import build_employee_prompt
 from memory.retrieval import retrieve
+
 from reasoning.parser import (
     parse_quant_request,
 )
@@ -160,14 +162,22 @@ class AthenaOrchestrator:
 
         Fiona decides which employee should handle
         the request.
+
+        The employee's professional profile is then
+        loaded dynamically and used to build the
+        runtime prompt for their current model.
         """
 
         decision = route_task(
             message
         )
 
+        employee_id = decision[
+            "employee"
+        ]
+
         model = get_model(
-            decision["employee"]
+            employee_id
         )
 
         memories = retrieve(
@@ -180,25 +190,11 @@ class AthenaOrchestrator:
             for memory in memories
         )
 
-        prompt = f"""
-You are Athena, a local AI assistant.
-
-You are being assisted by:
-{decision["employee"]}
-
-Relevant memory:
-{memory_context}
-
-User request:
-
-{message}
-
-Use the memory only when it is relevant.
-Do not invent facts that are not supported by the memory.
-
-Respond helpfully.
-"""
-
+        prompt = build_employee_prompt(
+            employee_id=employee_id,
+            task=message,
+            memory_context=memory_context,
+        )
 
         response = self.llm.generate(
             prompt,

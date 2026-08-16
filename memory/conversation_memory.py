@@ -15,6 +15,7 @@ def save_conversation(
     user_message: str,
     assistant_response: str,
     topic: str = "general",
+    importance: str = "normal",
 ):
     """
     Store one conversation turn in long-term memory.
@@ -32,6 +33,7 @@ Athena:
 {assistant_response}
 """.strip()
 
+
     memory_id = hashlib.sha256(
         (
             timestamp
@@ -40,26 +42,41 @@ Athena:
         ).encode()
     ).hexdigest()
 
+
     metadata = {
         "type": "conversation",
+        "scope": "conversations",
         "topic": topic,
+        "importance": importance,
         "timestamp": timestamp,
     }
+
 
     store_memory(
         memory_id=memory_id,
         text=text,
         metadata=metadata,
+        scope="conversations",
     )
+
 
     return memory_id
 
 
+
 if __name__ == "__main__":
+
     memory_id = save_conversation(
-        user_message="I want Athena to remember conversations.",
-        assistant_response="Conversation memory is now being added.",
+        user_message=(
+            "I want Athena to remember "
+            "conversations."
+        ),
+        assistant_response=(
+            "Conversation memory is "
+            "being improved."
+        ),
         topic="athena_memory",
+        importance="high",
     )
 
     print(

@@ -50,7 +50,26 @@ def store_memory(
     memory_id: str,
     text: str,
     metadata=None,
+    scope=None,
 ):
+    """
+    Store text and its embedding in Athena memory.
+    """
+
+    if metadata is None:
+        metadata = {}
+
+    if scope:
+        metadata["scope"] = scope
+
+    embedding = embed_text(text)
+
+    collection.upsert(
+        ids=[memory_id],
+        embeddings=[embedding],
+        documents=[text],
+        metadatas=[metadata],
+    )
     """
     Store text and its embedding in Athena memory.
     """
