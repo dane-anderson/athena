@@ -107,7 +107,7 @@ class QuantResearchTool:
                     formatted_reports
                 )
             )
-
+        
         commentary = self.analyst.analyze(
             deterministic_result
         )

@@ -16,7 +16,7 @@ from core.fiona_router import route_task
 from staff.employee_registry import get_model
 from staff.prompt_builder import build_employee_prompt
 from memory.retrieval import retrieve
-
+from response.typesetter import typeset_response
 from reasoning.parser import (
     parse_quant_request,
 )
@@ -175,6 +175,10 @@ class AthenaOrchestrator:
         employee_id = decision[
             "employee"
         ]
+        if employee_id == "kev":
+            return self._memory_response(
+                message
+            )
 
         model = get_model(
             employee_id
@@ -202,10 +206,15 @@ class AthenaOrchestrator:
             task=message,
             memory_context=memory_context,
         )
+           
 
         response = self.llm.generate(
             prompt,
             model=model,
+        )
+
+        response = typeset_response(
+            response
         )
 
         save_conversation(
@@ -214,7 +223,65 @@ class AthenaOrchestrator:
         )
 
         return response
+    def _memory_response(
+        self,
+        message,
+    ):
+        """
+        Kev retrieves memories.
+        A normal chat model summarizes them.
+        """
 
+        memories = retrieve(
+            message,
+            limit=10,
+            scope="conversations",
+        )
+
+        if not memories:
+            return (
+                "Kev could not find any matching "
+                "conversation memories."
+            )
+
+        memory_context = "\n\n".join(
+            (
+                f"Source: "
+                f"{memory['metadata'].get('filename', 'conversation')}\n\n"
+                f"{memory['content']}"
+            )
+            for memory in memories
+        )
+
+        prompt = f"""
+You are Fiona Gallagher, Chief of Staff for Athena.
+
+Kev has retrieved conversation history.
+
+Summarize what happened based only on
+the retrieved memories.
+
+Focus on:
+- what was built
+- decisions made
+- problems solved
+- next steps
+
+Do not invent anything.
+
+Retrieved memories:
+
+{memory_context}
+
+User request:
+
+{message}
+"""
+
+        return self.llm.generate(
+            prompt,
+            model="fiona",
+        )
 
 def process_request(
     message,

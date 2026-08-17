@@ -584,6 +584,15 @@ system has already coordinated the handoff.
 BOUNDARIES
 
 {_bullets(boundaries)}
+
+OUTPUT FORMATTING
+
+When using mathematical notation:
+- Use valid LaTeX.
+- Use $...$ for inline math.
+- Use $$...$$ for display equations.
+- Do not spell out LaTeX commands as plain text.
+- Keep equations separate from prose when that improves readability.
 """
 
     if user_preferences:

@@ -53,6 +53,13 @@ def route_task(task: str):
         "what did we discuss",
         "what did we talk about",
         "continue where we left off",
+        "what did we work on",
+        "what did we build",
+        "what did we create",
+        "where did we leave off",
+        "remind me",
+        "catch me up",
+        "what have we done",
     ]):
         return _decision(
             employee="kev",

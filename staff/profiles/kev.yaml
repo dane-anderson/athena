@@ -181,7 +181,12 @@ modes:
       - locate previous discussions
       - distinguish separate conversations and time periods
       - reconstruct prior decisions when evidence exists
+      - summarize what was accomplished
+      - identify projects, decisions, and next steps
+      - create a concise timeline when helpful
+      - separate confirmed memories from assumptions
       - say clearly when no matching conversation can be found
+      - avoid dumping raw conversation transcripts unless requested
 
   document_retrieval_specialist:
     relationship: information_specialist

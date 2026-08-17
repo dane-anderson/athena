@@ -476,10 +476,25 @@ def parse_quant_request(message):
         task = "risk_analysis"
 
     elif (
+    assets
+    and (
+        "analyze" in text
+        or "analyse" in text
+    )
+    ):
+        task = "risk_analysis"
+
+    elif (
         assets
         and (
-            "analyze" in text
-            or "analyse" in text
+            "run the quant tool" in text
+            or "quant tool" in text
+            or "quant analysis" in text
+            or "quant report" in text
+            or "calculate" in text
+            or "compute" in text
+            or "show me returns" in text
+            or "show returns" in text
         )
     ):
         task = "risk_analysis"
