@@ -195,7 +195,7 @@ Athena can:
 
 Example:
 
-![Athena Precalculus Practice Quiz](docs/images/athena-precalculus-quiz.png)
+![Athena course-aware practice quiz](athena-school.png)
 ---
 ## Memory and Document Retrieval
 
