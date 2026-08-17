@@ -2,14 +2,13 @@
 
 **Athena is a local-first multi-agent AI system that routes natural-language requests between specialized local models and deterministic software tools.**
 
-Instead of relying on one general-purpose language model for every task, Athena separates responsibilities across reasoning, research, coding, security review, quantitative analysis, and general assistance.
+Instead of relying on one general-purpose language model for every task, Athena separates responsibilities across reasoning, research, coding, security review, quantitative analysis, memory, and general assistance.
 
 **AI interprets. Python calculates. Specialized agents collaborate.**
 
-Athena currently includes a working multi-agent orchestration layer, a deterministic quantitative-finance research tool, local model execution through Ollama, a native macOS interface and persistent semantic memory and conversation memory using local embeddings and vector retrieval.
+Athena currently includes a working multi-agent orchestration layer, deterministic quantitative-finance research, local model execution through Ollama, a native macOS interface, and persistent semantic and conversation memory using local embeddings and vector retrieval.
 
-Quantitative research is Athena's first major tool, not its only role. General requests are routed to specialized local models, while structured tasks can be delegated to deterministic tools.
-
+Quantitative research is Athena's first major deterministic tool, not its only role. General requests are routed to specialized local models, while structured tasks can be delegated to deterministic tools.
 ---
 
 ## Athena in Action
@@ -267,6 +266,9 @@ The application provides:
 - Natural-language input
 - Research progress states
 - Scrollable structured responses
+- Selectable text with native macOS scrolling behavior
+- Markdown rendering
+- Native LaTeX mathematical typesetting
 - Local model execution
 - Direct connection to Athena Core
 
@@ -274,33 +276,6 @@ The interface intentionally contains little reasoning logic. Athena Core remains
 
 ---
 
-## Modular Tool Architecture
-
-Athena is designed as a general local AI system with independently maintainable tools.
-
-### Athena Core
-
-Provides:
-
-- Request orchestration
-- Multi-agent routing
-- Local model execution
-- Quantitative research
-- Native macOS integration
-
-### Dane Engine
-
-[Dane Engine](https://github.com/dane-anderson/dane-engine) is a separate academic intelligence system for:
-
-- Course-document processing
-- Mathematical study workflows
-- AI-assisted study generation
-- LaTeX generation
-- Automated PDF creation
-
-Dane Engine is designed to remain independently maintainable while becoming another specialized capability available through Athena.
-
----
 
 ## Memory Direction
 
@@ -336,23 +311,24 @@ Athena Core/
 │
 ├── staff/
 │   ├── employee_registry.py
-│   └── agent configuration
+│   ├── prompt_builder.py
+│   └── profiles/
 │
 ├── reasoning/
 │   ├── parser.py
 │   ├── llm_parser.py
 │   └── quant_request.py
 │
+├── response/
+│   ├── __init__.py
+│   └── typesetter.py
+│
+├── memory/
+│   ├── conversation_memory.py
+│   └── retrieval.py
+│
 ├── quant/
-│   ├── alpaca_provider.py
-│   ├── analyst.py
-│   ├── diagnostics.py
-│   ├── entity_resolver.py
-│   ├── model_comparison.py
-│   ├── risk_engine.py
-│   ├── simulation.py
-│   ├── tail_risk.py
-│   └── report_formatter.py
+│   └── ...
 │
 ├── tools/
 │   └── quant_research.py
@@ -360,12 +336,16 @@ Athena Core/
 ├── models/
 │   └── ollama_client.py
 │
-├── memory/
 ├── macos/
 │   └── AthenaNative/
+│       └── Sources/
+│           └── AthenaNative/
+│               ├── AthenaNativeApp.swift
+│               └── MathMarkdownView.swift
+│
 ├── tests/
+├── update-athena-app.sh
 └── README.md
-```
 
 ---
 
@@ -433,6 +413,12 @@ Working components include:
 - Conversation memory
 - Local embedding-based retrieval
 - Incremental school-folder indexing
+- Scoped conversation and document retrieval
+- Dedicated memory-retrieval specialist
+- Course-aware practice quiz generation
+- Markdown and LaTeX response typesetting
+- Native mathematical rendering in the macOS app
+- Natural-language routing between AI employees and deterministic tools
 
 - Athena is a research and engineering project, not a production trading system.
 
@@ -440,11 +426,9 @@ Working components include:
 
 ## Next Development Areas
 
-- Dynamic model-based routing
 - Multi-agent collaboration on complex tasks
 - Hybrid structured and vector memory
 - Persistent research sessions
-- Document retrieval
 - Security review pipelines
 - Automated code-review workflows
 - Approval gates for sensitive actions
