@@ -1,5 +1,32 @@
+
 import SwiftUI
 import WebKit
+
+
+private final class PassthroughWebView: WKWebView {
+
+    override func scrollWheel(
+        with event: NSEvent
+    ) {
+        nextResponder?.scrollWheel(
+            with: event
+        )
+    }
+
+    override func mouseDragged(
+        with event: NSEvent
+    ) {
+        super.mouseDragged(
+            with: event
+        )
+
+        _ = autoscroll(
+            with: event
+        )
+    }
+}
+
+
 
 
 struct MathMarkdownView: View {
@@ -51,7 +78,7 @@ private struct MathWebView: NSViewRepresentable {
                 name: "heightChanged"
             )
 
-        let webView = WKWebView(
+        let webView = PassthroughWebView(
             frame: .zero,
             configuration: configuration
         )

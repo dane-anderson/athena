@@ -70,12 +70,23 @@ def route_task(task: str):
 
 
     if _contains(task, [
-        "find in my files",
+         "find in my files",
         "find in my documents",
         "look through my files",
         "look through my documents",
         "which document",
         "which file",
+        "find what i wrote",
+        "find what i wrote about",
+        "check my folder",
+        "check my history folder",
+        "check my files",
+        "check my documents",
+        "find this in my files",
+        "find this in my documents",
+        "look in my folder",
+        "look in my files",
+        "look in my documents",
     ]):
         return _decision(
             employee="kev",

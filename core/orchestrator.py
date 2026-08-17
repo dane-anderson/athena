@@ -177,7 +177,8 @@ class AthenaOrchestrator:
         ]
         if employee_id == "kev":
             return self._memory_response(
-                message
+                message=message,
+                decision=decision,
             )
 
         model = get_model(
@@ -223,31 +224,108 @@ class AthenaOrchestrator:
         )
 
         return response
+    
     def _memory_response(
         self,
         message,
+        decision,
     ):
         """
-        Kev retrieves memories.
-        A normal chat model summarizes them.
+        Kev performs memory retrieval immediately.
+
+        conversation_historian:
+            searches conversation history
+
+        document_retrieval_specialist:
+            searches indexed documents
+
+        memory_librarian:
+            searches the requested memory scope
         """
+
+        mode = decision.get(
+            "mode",
+            "memory_librarian",
+        )
+
+        requested_scope = decision.get(
+            "memory_scope"
+        )
+
+
+        if mode == "conversation_historian":
+
+            scope = "conversations"
+
+        elif mode == "document_retrieval_specialist":
+
+            # Document retrieval should not accidentally
+            # search conversation history.
+            scope = requested_scope
+
+            if (
+                not scope
+                or scope == "conversations"
+            ):
+                scope = "school"
+
+        else:
+
+            scope = requested_scope
+
 
         memories = retrieve(
             message,
             limit=10,
-            scope="conversations",
+            scope=scope,
         )
 
-        if not memories:
-            return (
-                "Kev could not find any matching "
-                "conversation memories."
+
+        # School is currently the broad indexed-document
+        # scope, so use it as a fallback for document lookup.
+        if (
+            not memories
+            and mode
+                == "document_retrieval_specialist"
+            and scope != "school"
+        ):
+
+            scope = "school"
+
+            memories = retrieve(
+                message,
+                limit=10,
+                scope=scope,
             )
+
+
+        if not memories:
+
+            if mode == "conversation_historian":
+
+                return (
+                    "I couldn't find a matching "
+                    "conversation in memory."
+                )
+
+            if mode == "document_retrieval_specialist":
+
+                return (
+                    "I couldn't find a matching item "
+                    "in the indexed documents."
+                )
+
+            return (
+                "I couldn't find a matching memory."
+            )
+
 
         memory_context = "\n\n".join(
             (
                 f"Source: "
-                f"{memory['metadata'].get('filename', 'conversation')}\n\n"
+                f"{memory['metadata'].get('filename', 'unknown')}\n"
+                f"Scope: "
+                f"{memory['metadata'].get('scope', 'unknown')}\n\n"
                 f"{memory['content']}"
             )
             for memory in memories
@@ -256,20 +334,54 @@ class AthenaOrchestrator:
         prompt = f"""
 You are Fiona Gallagher, Chief of Staff for Athena.
 
-Kev has retrieved conversation history.
+Kev has ALREADY completed the requested retrieval.
+The results are included below.
 
-Summarize what happened based only on
-the retrieved memories.
+Do not say that you will ask Kev.
+Do not say that you will route the request to Kev.
+Do not say that Kev needs to check something later.
+Do not claim that Athena cannot access information
+that is present in the retrieved results.
 
-Focus on:
-- what was built
-- decisions made
-- problems solved
-- next steps
+Answer the user's request directly from the
+retrieved evidence.
 
-Do not invent anything.
+RETRIEVAL RESPONSE STYLE
 
-Retrieved memories:
+If this is document retrieval:
+
+- Begin with a concise direct answer.
+- Identify the single most relevant source first.
+- Explain briefly why that source is the best match.
+- Then mention supporting sources only when useful.
+- Do not dump every retrieved chunk by default.
+- Quote or reproduce only the portions needed to answer.
+- If several files contain essentially the same material,
+  group them instead of listing them separately.
+- Prefer a useful summary over a raw retrieval transcript.
+- Offer deeper detail only when the user asks for it.
+
+If this is conversation history:
+
+- Summarize the relevant prior discussion.
+- Focus on decisions, work completed, and next steps.
+- Do not dump raw conversation transcripts unless requested.
+
+Preserve source identity.
+Do not call material "your notes", "your lecture",
+or "your course materials" unless the metadata
+actually establishes that.
+
+If the retrieved evidence does not answer the
+question, say that clearly rather than guessing.
+
+Retrieval mode:
+{mode}
+
+Retrieval scope:
+{scope}
+
+Retrieved results:
 
 {memory_context}
 
@@ -277,11 +389,26 @@ User request:
 
 {message}
 """
+    
 
-        return self.llm.generate(
+
+        response = self.llm.generate(
             prompt,
             model="fiona",
         )
+
+        response = typeset_response(
+            response
+        )
+
+
+        save_conversation(
+            user_message=message,
+            assistant_response=response,
+        )
+
+
+        return response
 
 def process_request(
     message,
